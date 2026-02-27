@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# locate directory of the script, and repos root directory
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+
+# define some helper functions
+die() { echo "nvim-stortini: $*"; exit 1; }
+need() { command -v "$1" >/dev/null || die "missing required executable: $1"; }
+
+# dependencies
+need nvim
+need rg
+need fd
+need git
+need make
+
+# define environment variables
+APPNAME="nvim-stortini"
+NVIM_XDG_BASE="${REPO_ROOT}/.nvim"
+export NVIM_APPNAME="${APPNAME}"
+export XDG_CONFIG_HOME="${NVIM_XDG_BASE}/config"
+export XDG_DATA_HOME="${NVIM_XDG_BASE}/data"
+export XDG_STATE_HOME="${NVIM_XDG_BASE}/state"
+export XDG_CACHE_HOME="${NVIM_XDG_BASE}/cache"
+
+# make directories for nvim at runtime
+mkdir -p "${XDG_CONFIG_HOME}" "${XDG_DATA_HOME}" "${XDG_STATE_HOME}" "${XDG_CACHE_HOME}"
+mkdir -p "${XDG_DATA_HOME}/${NVIM_APPNAME}/site"
+
+# Neovim looks in "${XDG_CONFIG_HOME}/${NVIM_APPNAME}" for configuration, create symlink
+SRC_CFG_DIR="${REPO_ROOT}/nvim"
+CFG_DIR="${XDG_CONFIG_HOME}/${NVIM_APPNAME}"
+[[ -f "${SRC_CFG_DIR}/init.lua" ]] || die "Error: init.lua not found"
+if [ ! -e "${CFG_DIR}" ]; then
+  ln -s "${SRC_CFG_DIR}" "${CFG_DIR}"
+elif [ ! -L "${CFG_DIR}" ]; then
+  die "${CFG_DIR} exists but is not a symlink, move or delete directory to use nvim-stortini"
+fi
+
+exec nvim "$@"
