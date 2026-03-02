@@ -7,6 +7,10 @@ return {
   config = function()
     require("gitsigns").setup()
 
+    local diag_status = function()
+      return vim.diagnostic.is_enabled({ bufnr = 0 }) and "DIAG:ON" or "DIAG:OFF"
+    end
+
     require("lualine").setup({
       options = {
         icons_enabled = true,
@@ -46,7 +50,12 @@ return {
           },
           "diagnostics",
         },
-        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_x = {
+          diag_status,
+          "encoding",
+          "fileformat",
+          "filetype",
+        },
         lualine_y = { "progress" },
         lualine_z = { "location" },
       },
@@ -72,7 +81,12 @@ return {
           },
           "diagnostics",
         },
-        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_x = {
+          diag_status,
+          "encoding",
+          "fileformat",
+          "filetype",
+        },
         lualine_y = { "progress" },
         lualine_z = { "location" },
       },
