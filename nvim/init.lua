@@ -17,6 +17,7 @@ vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "<Tab>", ":bnext<CR>")
 vim.keymap.set("n", "<S-Tab>", ":b#<CR>")
+vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>')
 
 -- :E space will go to :e <path-to-directory-of-file-in-buffer>
 vim.keymap.set("c", "<Space>", function()
