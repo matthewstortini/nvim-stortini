@@ -1,2 +1,4 @@
 # Neovim runtime generated
 .nvim/
+
+.luarc.json
