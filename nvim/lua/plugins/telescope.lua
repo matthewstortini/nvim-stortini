@@ -109,5 +109,8 @@ return {
         ignore_current_buffer = true,
       })
     end)
+
+   vim.keymap.set("n", "<leader>fr", ":Telescope oldfiles<CR>")
+
   end,
 }

@@ -18,7 +18,7 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "<C-1>", "<C-w>o")
 vim.keymap.set("n", "<Tab>", ":bnext<CR>")
 vim.keymap.set("n", "<S-Tab>", ":b#<CR>")
-vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>')
+vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
 
 -- :E space will go to :e <path-to-directory-of-file-in-buffer>
 vim.keymap.set("c", "<Space>", function()
@@ -56,7 +56,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {
-  rocks = {
-    enabled = false,
-  },
+	rocks = {
+		enabled = false,
+	},
 })
