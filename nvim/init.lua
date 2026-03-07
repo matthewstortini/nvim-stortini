@@ -10,6 +10,12 @@ vim.opt.relativenumber = true
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- load custom commands
+local init_dir = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h")
+dofile(init_dir .. "/lua/custom/template-paste.lua")
+dofile(init_dir .. "/lua/custom/template-replace.lua")
+dofile(init_dir .. "/lua/custom/edit-buffer-dir.lua")
+
 -- keymapping
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
@@ -19,23 +25,8 @@ vim.keymap.set("n", "<C-1>", "<C-w>o")
 vim.keymap.set("n", "<Tab>", ":bnext<CR>")
 vim.keymap.set("n", "<S-Tab>", ":b#<CR>")
 vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
-
--- :E space will go to :e <path-to-directory-of-file-in-buffer>
-vim.keymap.set("c", "<Space>", function()
-	if vim.fn.getcmdtype() ~= ":" then
-		return " "
-	end
-	local line = vim.fn.getcmdline()
-	local pos = vim.fn.getcmdpos()
-	if pos == #line + 1 and line:match("^%s*E$") then
-		local dir = vim.fn.expand("%:p:h")
-		if dir == "" then
-			dir = vim.fn.getcwd()
-		end
-		return vim.api.nvim_replace_termcodes("<C-u>e " .. dir .. "/", true, false, true)
-	end
-	return " "
-end, { expr = true })
+vim.keymap.set("n", "<leader>TP", ":TemplatePaste ")
+vim.keymap.set({"n","x"}, "<leader>TR", ":TemplateReplace ")
 
 -- =========================
 -- Bootstrap lazy.nvim
