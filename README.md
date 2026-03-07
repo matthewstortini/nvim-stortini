@@ -86,8 +86,7 @@ This means plugin installs, caches, lockfiles, Mason data, parser downloads, and
 
 ## Fonts and icons
 
-This configuration uses `nvim-web-devicons` to display filetype icons in places like Neo-tree, Telescope, and status lines.  
-To render these icons correctly, a **Nerd Font** is recommended.
+This configuration uses `nvim-web-devicons` to display filetype icons in places like Neo-tree, Telescope, and status lines. To render these icons correctly, a **Nerd Font** is recommended.
 
 Nerd Fonts can be downloaded from:
 
