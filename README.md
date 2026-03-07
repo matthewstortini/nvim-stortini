@@ -13,7 +13,7 @@ This configuration is set up so it can be cloned anywhere and used without touch
 This configuration is intended to pair well with:
 
 - [tmux-stortini](https://github.com/matthewstortini/tmux-stortini) for tmux configuration
-- [wezterm](https://github.com/matthewstortini/wezterm) for terminal configuration
+- [wezterm](https://github.com/matthewstortini/wezterm-stortini) for terminal configuration
 
 In particular, this Neovim config includes `vim-tmux-navigator`, so using it alongside the companion tmux config gives a consistent split/pane navigation workflow across Neovim and tmux.
 
