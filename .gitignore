@@ -2,3 +2,8 @@
 .nvim/
 
 .luarc.json
+
+# editor temp files
+*~
+*.swp
+*.swo
