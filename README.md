@@ -15,41 +15,41 @@ This configuration is intended to pair well with the packages:
 - https://github.com/matthewstortini/tmux-stortini
 - https://github.com/matthewstortini/wezterm-stortini
 
-Together **WezTerm, tmux, and Neovim** form the terminal workflow this configuration is designed around.
+Together WezTerm, tmux, and Neovim form the terminal workflow this configuration is designed around.
 
-In particular, this setup uses **smart-splits.nvim** so pane navigation and resizing behave consistently between Neovim splits and tmux panes.
+In particular, this setup uses smart-splits.nvim so pane navigation and resizing behave consistently between Neovim splits and tmux panes.
 
 ## Repository layout
 
-```text
+```
 .
-??? bin/
-?   ??? nvim-stortini
-??? nvim/
-?   ??? init.lua
-?   ??? lazy-lock.json
-?   ??? lua/
-?       ??? custom/
-?       ??? plugins/
-??? README.md
+|-- bin
+|   `-- nvim-stortini
+|-- nvim
+|   |-- init.lua
+|   |-- lazy-lock.json
+|   `-- lua
+|       |-- custom
+|       `-- plugins
+`-- README.md
 ```
 
 ## Requirements
 
 The wrapper currently expects these executables to be available:
 
-- `nvim`
-- `rg`
-- `fd`
-- `git`
-- `make`
-- `tree-sitter`
+- nvim
+- rg
+- fd
+- git
+- make
+- tree-sitter
 
 Some plugin functionality also depends on external language tools. For example:
 
-- `clangd` for C/C++ LSP
-- `clang-format` for C/C++ formatting
-- `stylua` for Lua formatting
+- clangd for C/C++ LSP
+- clang-format for C/C++ formatting
+- stylua for Lua formatting
 
 The Mason configuration installs some of these automatically when possible, but having a working compiler/toolchain environment still matters.
 
@@ -70,7 +70,7 @@ Run the wrapper directly:
 
 ---
 
-### Optional convenience setup
+## Optional convenience setup
 
 To avoid needing to type the full path to the `nvim-stortini` executable when launching this configuration, a convenience script `setup_nvim_environment.sh` is provided.
 
@@ -105,7 +105,7 @@ nv
 The wrapper script:
 
 1. Locates the repository root
-2. Sets `NVIM_APPNAME=nvim-stortini`
+2. Sets NVIM_APPNAME=nvim-stortini
 3. Creates repo-local XDG directories under `.nvim/`
 4. Symlinks the repository's `nvim/` directory into the XDG config tree
 5. Launches Neovim with that isolated configuration
@@ -114,7 +114,7 @@ This means plugin installs, caches, lockfiles, Mason data, parser downloads, and
 
 ## Fonts and icons
 
-This configuration uses `nvim-web-devicons` to display filetype icons in places like Neo-tree, Telescope, and status lines. To render these icons correctly, a **Nerd Font** is recommended.
+This configuration uses `nvim-web-devicons` to display filetype icons in places like Neo-tree, Telescope, and status lines. To render these icons correctly, a Nerd Font is recommended.
 
 Nerd Fonts can be downloaded from:
 
@@ -127,18 +127,18 @@ The companion WezTerm configuration in this ecosystem is set up to use:
 - Iosevka Nerd Font Mono
 - JetBrainsMono Nerd Font (fallback)
 
-If you want the same appearance, install **Iosevka Nerd Font Mono** from the Nerd Fonts website and configure your terminal to use it.
+If you want the same appearance, install Iosevka Nerd Font Mono and configure your terminal to use it.
 
 ## compile_commands.json and C/C++ support
 
-This config enables `clangd` for C and C++.
+This config enables clangd for C and C++.
 
 For good diagnostics, completion, include-path resolution, and jump-to-definition behavior in C/C++ projects, it is best to have a compilation database available in the relevant project root:
 
-- `compile_commands.json`
-- or `compile_flags.txt`
+- compile_commands.json
+- compile_flags.txt
 
-If your project does not provide one, `clangd` often has to guess compiler flags and include paths.
+If your project does not provide one, clangd often has to guess compiler flags and include paths.
 
 For CMake projects:
 
@@ -210,7 +210,7 @@ Ctrl-k  move up
 Ctrl-l  move right
 ```
 
-These mappings work seamlessly between Neovim splits and tmux panes using **smart-splits.nvim**.
+These mappings work seamlessly between Neovim splits and tmux panes using smart-splits.nvim.
 
 ### Telescope
 
@@ -238,7 +238,7 @@ Navigation:
 ```
 gd   go to definition
 gD   go to declaration
-gI   go to implementation
+gi   go to implementation
 gy   go to type definition
 gr   list references
 ```
@@ -339,5 +339,5 @@ Additional language servers can be installed with:
 ## Notes
 
 - This config is intentionally personal and opinionated.
-- Plugin versions are pinned via `lazy-lock.json`.
+- Plugin versions are pinned via lazy-lock.json.
 - It works best when paired with the companion tmux and WezTerm repositories.
