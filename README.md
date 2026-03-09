@@ -270,6 +270,68 @@ Code actions:
 <leader>td   toggle diagnostics display
 ```
 
+### Commenting / uncommenting
+
+This configuration includes **Comment.nvim** for quick commenting.
+
+Toggle comment on the current line:
+
+```
+gcc
+```
+
+Toggle comment using a motion:
+
+```
+gc<motion>
+```
+
+Examples:
+
+```
+gcj     comment this line and the next
+gc5j    comment this line and the next five
+```
+
+Visual mode:
+
+```
+select lines
+gc
+```
+
+The same command toggles both **comment** and **uncomment**.
+
+### GitHub Copilot
+
+This configuration includes **copilot.vim**.
+
+Copilot starts **disabled by default**.
+
+Toggle Copilot on/off:
+
+```
+<leader>cp
+```
+
+Accept a Copilot suggestion:
+
+```
+Ctrl-l
+```
+
+Copilot suggestions appear as inline ghost text. They are separate from the completion popup provided by `nvim-cmp`.
+
+If Copilot is installed but has not been set up yet, run:
+
+```
+:Copilot setup
+```
+
+This command performs the initial GitHub authentication required for Copilot.
+
+After setup is complete, Copilot can be toggled on and off with `<leader>cp`.
+
 ## Plugin overview
 
 ### Core / plugin management
@@ -296,6 +358,7 @@ Code actions:
 
 - vim-abolish
 - nvim-treesitter
+- Comment.nvim
 
 ### Completion and snippets
 
@@ -315,6 +378,10 @@ Code actions:
 ### Git integration
 
 - gitsigns.nvim
+
+### AI assistance
+
+- copilot.vim
 
 ## Current language focus
 

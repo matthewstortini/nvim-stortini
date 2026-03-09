@@ -11,6 +11,10 @@ return {
 			return vim.diagnostic.is_enabled({ bufnr = 0 }) and "DIAG:ON" or "DIAG:OFF"
 		end
 
+		local copilot_status = function()
+			return vim.fn["copilot#Enabled"]() == 1 and "COPILOT:ON" or "COPILOT:OFF"
+		end
+
 		local full_path = function()
 			local dir = vim.fn.expand("%:p:h")
 			return vim.fn.fnamemodify(dir, ":~") .. "/"
@@ -49,6 +53,7 @@ return {
 
 				lualine_x = {
 					diag_status,
+					copilot_status,
 					"encoding",
 					"fileformat",
 					"filetype",
@@ -69,7 +74,6 @@ return {
 				lualine_z = {},
 			},
 
-			-- second line showing full path
 			winbar = {
 				lualine_a = { full_path },
 				lualine_b = {},
