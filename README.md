@@ -77,8 +77,7 @@ This script appends the repository's `bin/` directory to your `$PATH` and define
 Run the script with the environment file you normally source for shell setup:
 
 ```bash
-chmod +x setup_nvim_environment.sh
-./setup_nvim_environment.sh <your environment script>
+./setup_nvim_environment.sh <your-environment-script>
 ```
 
 For example:
