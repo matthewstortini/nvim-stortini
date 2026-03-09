@@ -66,10 +66,37 @@ Run the wrapper directly:
 ./bin/nvim-stortini
 ```
 
-Or put `bin/` on your `PATH` and run:
+---
+
+### Optional convenience setup
+
+To avoid needing to type the full path to the `nvim-stortini` executable when launching this configuration, a convenience script `setup_nvim_environment.sh` is provided.
+
+This script appends the repository's `bin/` directory to your `$PATH` and defines the alias `nv` to launch `nvim-stortini`.
+
+Run the script with the environment file you normally source for shell setup:
 
 ```bash
-nvim-stortini
+chmod +x setup_nvim_environment.sh
+./setup_nvim_environment.sh <your environment script>
+```
+
+For example:
+
+```bash
+./setup_nvim_environment.sh ~/envSetup.sh
+```
+
+After running the script, reload your environment:
+
+```bash
+source ~/envSetup.sh
+```
+
+You can then launch Neovim with this configuration using:
+
+```bash
+nv
 ```
 
 ## How the wrapper works
