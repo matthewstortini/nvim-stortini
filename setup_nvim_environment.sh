@@ -23,8 +23,9 @@ fi
 NVIM_BLOCK=$(cat <<EOF
 
 # nvim-stortini configuration package
-if [ -f "$REPO_DIR/bin/nvim-stortini" ]; then
-  export PATH="$REPO_DIR/bin:\$PATH"
+NVIM_STORTINI_EXECUTABLE_PATH="$REPO_DIR/bin"
+if [ -f "\${NVIM_STORTINI_EXECUTABLE_PATH}/nvim-stortini" ]; then
+  export PATH="\${NVIM_STORTINI_EXECUTABLE_PATH}:\$PATH"
   alias nv=nvim-stortini
 fi
 EOF
@@ -33,7 +34,8 @@ EOF
 echo "This script is a convenience helper."
 echo
 echo "It will append a small block to your environment script that:"
-echo "  - adds the nvim-stortini executable directory to your PATH"
+echo "  - defines NVIM_STORTINI_EXECUTABLE_PATH pointing to this repository's bin directory"
+echo "  - adds that directory to your PATH"
 echo "  - creates the alias 'nv' for launching nvim-stortini"
 echo
 echo "It will modify the following file:"
