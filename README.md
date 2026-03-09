@@ -12,24 +12,26 @@ This configuration is set up so it can be cloned anywhere and used without touch
 
 This configuration is intended to pair well with the packages:
 
-- [tmux-stortini](https://github.com/matthewstortini/tmux-stortini) for tmux configuration
-- [wezterm-stortini](https://github.com/matthewstortini/wezterm-stortini) for terminal configuration
+- https://github.com/matthewstortini/tmux-stortini
+- https://github.com/matthewstortini/wezterm-stortini
 
-In particular, this Neovim config includes `vim-tmux-navigator`, so using it alongside the companion tmux config gives a consistent split/pane navigation workflow across Neovim and tmux.
+Together **WezTerm, tmux, and Neovim** form the terminal workflow this configuration is designed around.
+
+In particular, this setup uses **smart-splits.nvim** so pane navigation and resizing behave consistently between Neovim splits and tmux panes.
 
 ## Repository layout
 
 ```text
 .
-├── bin/
-│   └── nvim-stortini
-├── nvim/
-│   ├── init.lua
-│   ├── lazy-lock.json
-│   └── lua/
-│       ├── custom/
-│       └── plugins/
-└── README.md
+??? bin/
+?   ??? nvim-stortini
+??? nvim/
+?   ??? init.lua
+?   ??? lazy-lock.json
+?   ??? lua/
+?       ??? custom/
+?       ??? plugins/
+??? README.md
 ```
 
 ## Requirements
@@ -80,19 +82,19 @@ Run the script with the environment file you normally source for shell setup:
 ./setup_nvim_environment.sh <your-environment-script>
 ```
 
-For example:
+Example:
 
 ```bash
 ./setup_nvim_environment.sh ~/envSetup.sh
 ```
 
-After running the script, reload your environment:
+Reload your environment:
 
 ```bash
 source ~/envSetup.sh
 ```
 
-You can then launch Neovim with this configuration using:
+You can now launch Neovim using:
 
 ```bash
 nv
@@ -122,262 +124,220 @@ Download and install any Nerd Font you prefer, then configure your terminal to u
 
 The companion WezTerm configuration in this ecosystem is set up to use:
 
-- `Iosevka Nerd Font Mono`
-- `JetBrainsMono` as a fallback
+- Iosevka Nerd Font Mono
+- JetBrainsMono Nerd Font (fallback)
 
-If you want the same appearance, install **Iosevka Nerd Font Mono** from the Nerd Fonts website and set your terminal font accordingly.
+If you want the same appearance, install **Iosevka Nerd Font Mono** from the Nerd Fonts website and configure your terminal to use it.
 
-If you do not use the companion WezTerm config, any Nerd Font should work as long as your terminal is actually set to use it.
-
-## `compile_commands.json` and C/C++ support
+## compile_commands.json and C/C++ support
 
 This config enables `clangd` for C and C++.
 
-For good diagnostics, completion, include-path resolution, and jump-to-definition behavior in C/C++ projects, it is best to have a compilation database available in the relevant project or package root:
+For good diagnostics, completion, include-path resolution, and jump-to-definition behavior in C/C++ projects, it is best to have a compilation database available in the relevant project root:
 
 - `compile_commands.json`
 - or `compile_flags.txt`
 
-If your project does not provide one, `clangd` often has to guess compiler flags and include paths, which can lead to incorrect diagnostics or incomplete indexing.
+If your project does not provide one, `clangd` often has to guess compiler flags and include paths.
 
-For CMake projects, a common way to generate `compile_commands.json` is:
+For CMake projects:
 
 ```bash
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B build
 ```
 
-Then either keep the file where `clangd` can find it or symlink it into the package root if your build system writes it somewhere else.
-
 ## Custom commands
 
-This configuration includes a few custom commands that are specific to this repo.
+### :TemplatePaste
 
-### `:TemplatePaste`
+Expands the most recently yanked line (register `0`) into multiple lines by applying structured replacements.
 
-Expands the most recently yanked line (register `0`) into multiple lines by applying position-wise replacements.
+Open quickly with:
 
-Open the command prompt quickly with:
-
-```vim
+```
 <leader>TP
 ```
 
 Syntax:
 
-```vim
+```
 :TemplatePaste target {a,b,c} [target2 {x,y,z} ...]
 ```
 
-Example:
+### :TemplateReplace
 
-Suppose the last yanked line is:
+Applies structured replacements to an existing range of lines.
 
-```lua
-vim.keymap.set("n", "<C-h>", ":TmuxNavigatorLeft<CR>")
+Open quickly with:
+
 ```
-
-Run:
-
-```vim
-:TemplatePaste C-h {C-j,C-k,C-l} Left {Down,Up,Right}
-```
-
-Result:
-
-```lua
-vim.keymap.set("n", "<C-j>", ":TmuxNavigatorDown<CR>")
-vim.keymap.set("n", "<C-k>", ":TmuxNavigatorUp<CR>")
-vim.keymap.set("n", "<C-l>", ":TmuxNavigatorRight<CR>")
-```
-
-This is useful for generating repeated boilerplate where each line differs in a structured way.
-
-### `:TemplateReplace`
-
-Applies the same kind of position-wise replacements, but to an existing range of lines in place.
-
-Open the command prompt quickly with:
-
-```vim
 <leader>TR
 ```
 
-It works in:
+### :E<Space>
 
-- normal mode with an explicit range
-- visual mode over a selected line range
+Typing:
 
-Syntax:
-
-```vim
-:[range]TemplateReplace target {a,b,c} [target2 {x,y,z} ...]
 ```
-
-Example with a visual selection over 3 lines:
-
-```vim
-:TemplateReplace C-h {C-j,C-k,C-l} Left {Down,Up,Right}
-```
-
-This is useful when you already pasted a block and want to transform each selected line differently but with one structured command.
-
-### `:E<Space>` convenience expansion
-
-In command-line mode, typing:
-
-```vim
 :E<Space>
 ```
 
 expands to:
 
-```vim
+```
 :e /path/to/current/buffer/
 ```
 
-using the directory of the current buffer, or the current working directory if the buffer has no path.
-
-This makes it faster to open nearby files relative to the file you are already editing.
-
 ## Key behaviors and useful mappings
 
-The exact mappings live in the configuration files, but the main workflow pieces are summarized below.
+### Navigation and resizing (Neovim + tmux)
 
-### Navigation (Neovim + tmux)
+Resize splits:
 
-Pane navigation is shared between Neovim and tmux using
-`vim-tmux-navigator`, so the same keys work across both environments.
+```
+Alt-h   resize left
+Alt-j   resize down
+Alt-k   resize up
+Alt-l   resize right
+```
 
-- `Ctrl-h` — move to pane/split on the left
-- `Ctrl-j` — move to pane/split below
-- `Ctrl-k` — move to pane/split above
-- `Ctrl-l` — move to pane/split on the right
+Move between splits and tmux panes:
 
-This allows seamless movement between Neovim splits and tmux panes.
+```
+Ctrl-h  move left
+Ctrl-j  move down
+Ctrl-k  move up
+Ctrl-l  move right
+```
 
----
+These mappings work seamlessly between Neovim splits and tmux panes using **smart-splits.nvim**.
 
-### Telescope (search and navigation)
+### Telescope
 
-Telescope is used for file discovery and project searching.
+```
+<leader>ff   find files
+<leader>fg   search text (live grep)
+<leader>fb   switch buffers
+<leader>fr   recent files
+```
 
-- `<leader>ff` — find files
-- `<leader>fg` — search text in project (live grep)
-- `<leader>fb` — switch buffers
-- `<leader>fr` — recent files
+### Neo-tree
 
-These commands provide the primary interface for navigating files and searching within projects.
-
----
-
-### Neo-tree (file browser)
-
-Neo-tree provides a file browser that can be opened rooted at several useful locations.
-
-- `<leader>fv` — smart folder view (Git root if present, otherwise `$HOME` or `/`)
-- `<leader>gfv` — open at Git repository root
-- `<leader>dfv` — open at directory of current file
-- `<leader>hfv` — open at home directory
-- `<leader>rfv` — open at filesystem root `/`
-
-This approach avoids relying on the current working directory and instead provides explicit browsing contexts.
-
----
+```
+<leader>fv   smart folder view
+<leader>gfv  open Git repository root
+<leader>dfv  open directory of current file
+<leader>hfv  open home directory
+<leader>rfv  open filesystem root /
+```
 
 ### LSP navigation and actions
 
-Language Server Protocol functionality is provided through `nvim-lspconfig` and related plugins.
-
 Navigation:
 
-- `gd` — go to definition
-- `gD` — go to declaration
-- `gr` — list references
-- `gi` — go to implementation
-- `gy` — go to type definition
+```
+gd   go to definition
+gD   go to declaration
+gI   go to implementation
+gy   go to type definition
+gr   list references
+```
 
-Information:
+Hover documentation:
 
-- `K` — show hover documentation
+```
+K   show documentation
+```
+
+Diagnostics:
+
+```
+[d   previous diagnostic
+]d   next diagnostic
+```
 
 Code actions:
 
-- `ca` — code actions
-- `cr` — rename symbol
+```
+<leader>ca   code action
+<leader>cr   rename symbol
+```
 
----
+### Formatting and diagnostics
 
-### Other useful commands
-
-- `lf` — format the current buffer using the configured formatter or LSP
-- `td` — toggle diagnostics display for the current buffer
+```
+<leader>lf   format buffer
+<leader>td   toggle diagnostics display
+```
 
 ## Plugin overview
 
 ### Core / plugin management
 
-- **lazy.nvim** — plugin manager used to bootstrap and load the rest of the configuration
+- lazy.nvim
 
 ### UI and appearance
 
-- **everforest-nvim** — colorscheme; configured here with transparent background highlights
-- **alpha-nvim** — startup/dashboard screen with quick actions
-- **lualine.nvim** — statusline
-- **nvim-web-devicons** — file icons used by multiple UI plugins; benefits from a Nerd Font
+- everforest-nvim
+- alpha-nvim
+- lualine.nvim
+- nvim-web-devicons
 
 ### Navigation and file browsing
 
-- **telescope.nvim** — fuzzy finder for files, grep, buffers, and oldfiles
-- **telescope-fzf-native.nvim** — native sorter extension for faster Telescope matching
-- **neo-tree.nvim** — file explorer/sidebar
-- **plenary.nvim** — support library used by several plugins
-- **nui.nvim** — UI dependency used by Neo-tree
-- **vim-tmux-navigator** — seamless movement between Neovim splits and tmux panes
+- telescope.nvim
+- telescope-fzf-native.nvim
+- neo-tree.nvim
+- plenary.nvim
+- nui.nvim
+- smart-splits.nvim
 
 ### Editing helpers
 
-- **vim-abolish** — coercion and structured substitution helpers
-- **nvim-treesitter** — syntax highlighting and indentation based on Treesitter parsers
+- vim-abolish
+- nvim-treesitter
 
 ### Completion and snippets
 
-- **nvim-cmp** — completion menu engine
-- **cmp-nvim-lsp** — LSP completion source for `nvim-cmp`
-- **LuaSnip** — snippet engine
-- **cmp_luasnip** — LuaSnip completion source
-- **friendly-snippets** — community snippet collection
+- nvim-cmp
+- cmp-nvim-lsp
+- LuaSnip
+- cmp_luasnip
+- friendly-snippets
 
 ### LSP, formatting, and tool installation
 
-- **mason.nvim** — installs external tools such as language servers and formatters
-- **mason-lspconfig.nvim** — bridges Mason with `nvim-lspconfig`
-- **nvim-lspconfig** — LSP client configuration (`lua_ls` and `clangd` are configured here)
-- **none-ls.nvim** — exposes external tools such as `stylua` and `clang-format` through the LSP-style formatting interface
+- mason.nvim
+- mason-lspconfig.nvim
+- nvim-lspconfig
+- none-ls.nvim
 
 ### Git integration
 
-- **gitsigns.nvim** — Git signs/hunks in the sign column and Git metadata for the statusline
+- gitsigns.nvim
 
 ## Current language focus
 
 This configuration is currently tuned most heavily for:
 
-- **Lua** via `lua_ls`, Treesitter, and `stylua`
-- **C/C++** via `clangd`, Treesitter, and `clang-format`
+- Lua
+- C / C++
 
-Additional language servers, formatters, and linters can be installed running :Mason in vim.
+Tools used include:
 
-Once installed, they can be configured in the LSP configuration file lsp-config.lua
+- lua_ls
+- clangd
+- stylua
+- clang-format
 
-The configuration is intentionally structured so that adding support for additional languages mainly involves:
+Additional language servers can be installed with:
 
-1. Installing the language server or formatter via Mason
-2. Adding the relevant setup in `lsp-config.lua`
-
-Even without additional language servers, the configuration still works well as a general-purpose editor for text editing, file navigation, and project exploration.
+```
+:Mason
+```
 
 ## Notes
 
 - This config is intentionally personal and opinionated.
-- The plugin lockfile is committed, so plugin versions are pinned.
-- The setup is especially comfortable when paired with the companion tmux and WezTerm repos.
+- Plugin versions are pinned via `lazy-lock.json`.
+- It works best when paired with the companion tmux and WezTerm repositories.
