@@ -2,14 +2,14 @@ return {
 	"mrjones2014/smart-splits.nvim",
 	lazy = false,
 	init = function()
-		vim.g.smart_splits_multiplexer_integration = "tmux"
+		vim.g.smart_splits_multiplexer_integration = vim.env.TMUX and "tmux" or false
 	end,
 	config = function()
 		local smart_splits = require("smart-splits")
 
 		smart_splits.setup({
 			default_amount = 5,
-			multiplexer_integration = "tmux",
+			multiplexer_integration = vim.env.TMUX and "tmux" or false,
 		})
 
 		-- pane navigation
