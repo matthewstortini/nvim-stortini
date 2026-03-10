@@ -10,6 +10,10 @@ return {
 				for _, name in ipairs({
 					"stylua",
 					"clang-format",
+					"black",
+					"ruff",
+					"shellcheck",
+					"shfmt",
 				}) do
 					local ok, pkg = pcall(mr.get_package, name)
 					if ok and not pkg:is_installed() then
@@ -25,7 +29,7 @@ return {
 		dependencies = { "mason-org/mason.nvim" },
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "clangd" },
+				ensure_installed = { "lua_ls", "clangd", "basedpyright", "ruff", "bashls" },
 			})
 		end,
 	},
@@ -101,10 +105,48 @@ return {
 				},
 			}
 
+			vim.lsp.config.basedpyright = {
+				capabilities = capabilities,
+				root_markers = {
+					".git",
+					"pyproject.toml",
+					"setup.py",
+					"requirements.txt",
+				},
+				settings = {
+					basedpyright = {
+						analysis = {
+							typeCheckingMode = "basic",
+						},
+					},
+				},
+			}
+
+			-- Ruff LSP (linting)
+			vim.lsp.config.ruff = {
+				capabilities = capabilities,
+				root_markers = {
+					".git",
+					"pyproject.toml",
+					"ruff.toml",
+				},
+				on_attach = function(client)
+					-- prevent duplicate hover with basedpyright
+					client.server_capabilities.hoverProvider = false
+				end,
+			}
+
+			-- bash
+			vim.lsp.config.bashls = {
+				capabilities = capabilities,
+				filetypes = { "sh", "bash", "zsh" },
+				root_markers = { ".git" },
+			}
+
 			---------------------------------------------------------------------------
 			-- Enable servers
 			---------------------------------------------------------------------------
-			vim.lsp.enable({ "lua_ls", "clangd" })
+			vim.lsp.enable({ "lua_ls", "clangd", "basedpyright", "ruff", "bashls" })
 		end,
 	},
 }
