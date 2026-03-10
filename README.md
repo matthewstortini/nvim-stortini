@@ -44,6 +44,7 @@ The wrapper currently expects these executables to be available:
 - git
 - make
 - tree-sitter
+- node
 
 Some plugin functionality also depends on external language tools. For example:
 

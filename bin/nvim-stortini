@@ -16,6 +16,7 @@ need fd
 need git
 need make
 need tree-sitter
+need node
 
 # define environment variables
 APPNAME="nvim-stortini"
