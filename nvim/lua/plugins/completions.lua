@@ -14,8 +14,8 @@ return {
     end,
 
     config = function()
-      -- accept Copilot suggestion with Ctrl-l
-      vim.keymap.set("i", "<C-l>", 'copilot#Accept("<CR>")', {
+      -- accept Copilot suggestion with Ctrl-y
+      vim.keymap.set("i", "<C-y>", 'copilot#Accept("<CR>")', {
         expr = true,
         silent = true,
         replace_keycodes = false,
