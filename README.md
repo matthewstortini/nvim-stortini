@@ -318,7 +318,7 @@ Toggle Copilot on/off:
 Accept a Copilot suggestion:
 
 ```
-Ctrl-l
+Ctrl-y
 ```
 
 Copilot suggestions appear as inline ghost text. They are separate from the completion popup provided by `nvim-cmp`.
