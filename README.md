@@ -225,7 +225,7 @@ These mappings work seamlessly between Neovim splits and tmux panes using smart-
 ### Neo-tree
 
 ```
-<leader>fv   smart folder view
+<leader>fv   open from directory nvim was started in
 <leader>gfv  open Git repository root
 <leader>dfv  open directory of current file
 <leader>hfv  open home directory
