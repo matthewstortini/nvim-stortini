@@ -237,11 +237,12 @@ These mappings work seamlessly between Neovim splits and tmux panes using smart-
 Navigation:
 
 ```
-gd   go to definition
-gD   go to declaration
-gi   go to implementation
-gy   go to type definition
-gr   list references
+gd        go to definition
+gD        go to declaration
+gi        go to implementation
+gy        go to type definition
+gr        list references
+<leader>o open source/header from header/source file
 ```
 
 Hover documentation:

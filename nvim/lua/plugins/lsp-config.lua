@@ -57,6 +57,7 @@ return {
 					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 					vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
 					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+          vim.keymap.set("n", "<leader>o", "<cmd>LspClangdSwitchSourceHeader<CR>", { desc = "Switch source/header" })
 
 					-- Actions
 					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
